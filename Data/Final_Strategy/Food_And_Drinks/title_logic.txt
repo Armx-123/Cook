@@ -1,14 +1,16 @@
-1.  **[Keyword] + [Benefit/Action Verb] + [Result/Outcome]**
-    *   **Logic:** This structure immediately tells the user what the content is about ([Keyword]), what they can do with it ([Action Verb]), and the positive impact it will have ([Result/Outcome]). It's highly engaging and promises a clear value proposition.
+Here are 5 successful 'Formula Structures' for Pinterest food and drink titles, along with their logic:
 
-2.  **[Adjective/Descriptor] + [Keyword] + [Specifics/Quantifier]**
-    *   **Logic:** This format is effective because it grabs attention with an appealing adjective, clearly identifies the core topic with a keyword, and then provides crucial detail (like the number of ingredients or time) that helps users quickly assess relevance and feasibility.
+1.  **[Descriptive Adjective] [Food Item/Dish] [Benefit/Result]**
+    *   **Logic:** This formula immediately highlights the appeal of the food item with an adjective, clearly states what it is, and then promises a positive outcome or a reason to click. It creates desire and relevance.
 
-3.  **[Keyword] + [How-To/Type] + [Occasion/Dietary Need]**
-    *   **Logic:** This formula works by clearly stating the food item ([Keyword]), defining its purpose or method ([How-To/Type]), and then specifying its suitability for a particular context ([Occasion/Dietary Need]). This makes it highly searchable for users with specific needs or planning events.
+2.  **[How-To Verb] [Food Item/Dish] [Time/Effort Indicator]**
+    *   **Logic:** This structure appeals to users looking for practical solutions. The "how-to" aspect is inherently searchable, the food item is specific, and the time/effort indicator addresses a common user concern (ease of preparation).
 
-4.  **[Intriguing Question] + [Keyword]**
-    *   **Logic:** This structure leverages curiosity. By posing a question that a user might be asking themselves, it immediately creates engagement. Following it with the relevant [Keyword] quickly directs them to a solution for their query.
+3.  **[Specific Ingredient/Flavor Profile] [Food Item/Dish] Recipe**
+    *   **Logic:** This formula targets users with specific cravings or ingredient preferences. It's highly scannable and promises a clear solution for those looking for a particular taste or type of dish.
 
-5.  **[Keyword] + [Sensory Appeal/Descriptor] + [Simplicity Indicator]**
-    *   **Logic:** This formula appeals to emotion and practicality. It starts with the core [Keyword], uses descriptive language to evoke taste or texture ([Sensory Appeal/Descriptor]), and then reassures the user with an indicator of ease ([Simplicity Indicator]), making it seem approachable and delicious.
+4.  **[Occasion/Meal Type] [Food Item/Dish] Ideas**
+    *   **Logic:** This targets users planning for specific events or meal times. It suggests a collection of options, making it attractive to those seeking inspiration and variety for a particular context.
+
+5.  **[Sensory Adjective] [Food Item/Dish] You Need to Try**
+    *   **Logic:** This formula leverages emotional appeal and urgency. The sensory adjective creates an immediate desire, and the call to action "you need to try" adds a compelling element of urgency and exclusivity.

@@ -1,20 +1,18 @@
 **Hook Styles:**
 
-1.  **Benefit-Driven / Problem-Solution:**
-    *   [Benefit of the food/drink] + [How the recipe/drink solves a problem or improves an experience].
-    *   *Example:* "Whip up a quick and healthy weeknight dinner that the whole family will love!"
+1.  **Curiosity/Problem-Solution:**
+    *   Template: "Tired of [common food problem]? Try this [solution/dish name]!"
+    *   Logical Flow: Identifies a relatable pain point, then presents the pinned content as the direct answer.
 
-2.  **Curiosity / Intrigue:**
-    *   [Intriguing question] + [Tease of the delicious outcome].
-    *   *Example:* "Craving something sweet and decadent? This chocolate lava cake is easier than you think!"
+2.  **Benefit-Driven/Desire:**
+    *   Template: "Whip up a [desirable outcome/flavor profile] with this easy [dish type]."
+    *   Logical Flow: Focuses on the positive result or sensory experience the user will achieve.
 
-3.  **Sensory / Evocative:**
-    *   [Sensory adjective] + [Description of the food/drink's taste, texture, or aroma].
-    *   *Example:* "Irresistibly creamy and bursting with fresh berry flavor, this smoothie is your perfect morning pick-me-up."
+3.  **Intrigue/Specificity:**
+    *   Template: "The secret to [specific culinary achievement/flavor combination] is finally revealed!"
+    *   Logical Flow: Hints at a unique or insider tip, making the user want to learn more.
 
 **CTA (Call to Action) Structure:**
 
-*   **[Action Verb] + [What to do] + [Where to do it]**
-    *   *Example:* "Click to get the full recipe!"
-    *   *Example:* "Tap for ingredient list!"
-    *   *Example:* "Save for later!"
+*   **Template:** "Click here for the full recipe!"
+*   **Logical Flow:** Direct, action-oriented, and clearly states what the user will get by clicking.
