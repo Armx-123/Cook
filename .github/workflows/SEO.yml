@@ -18,6 +18,7 @@ jobs:
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       RYNX: ${{ secrets.RYNX }}
+      PINTEREST_REFRESH_TOKEN: ${{secrets.PINTEREST_REFRESH_TOKEN}}
 
     steps:
     - name: Check out repository
