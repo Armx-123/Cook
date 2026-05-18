@@ -1,1 +1,44 @@
-Error: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite\nPlease retry in 55.647429537s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash-lite'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '55s'}]}}
+## Most Effective Hook Styles:
+
+1.  **Benefit-Driven + Number/Listicle:**
+    *   Template: `[Number] [Benefit-focused adjective] [Key Ingredient/Dish Type] [Occasion/Result]`
+    *   Example: `10 Easy Sides To Bring To A Cookout BBQ Party!`
+    *   Logical Flow:
+        *   Quantify the offering (number).
+        *   Promise a key benefit (easy, best, delicious, healthy).
+        *   Identify the core content (sides, salads, dinners).
+        *   Set the context/purpose (cookout, party, weight loss).
+
+2.  **Problem/Solution + Benefit:**
+    *   Template: `[Problem/Need] + [Solution/Benefit]`
+    *   Example: `Beat the heat with these Easy Air Fryer Summer Recipes that keep your kitchen cool and your meals quick!`
+    *   Logical Flow:
+        *   Acknowledge a common problem or need (beat the heat, tired of X, need Y).
+        *   Introduce the solution with a clear benefit (easy recipes, keeps kitchen cool, quick meals).
+        *   Emphasize convenience or positive outcome.
+
+3.  **Intriguing Adjective + Dish Type + Occasion/Benefit:**
+    *   Template: `[Intriguing Adjective] [Dish Type] [Occasion/Benefit]`
+    *   Example: `11 Stand-Out Pasta Salad Recipes That Might Just Steal the Show`
+    *   Logical Flow:
+        *   Use strong, evocative adjectives (stand-out, irresistible, vibrant, ultimate).
+        *   Clearly state the food category (pasta salad, dinner recipes, fruit salad).
+        *   Hint at a desirable outcome or purpose (steal the show, impress, keep mealtime easy).
+
+## Best CTA (Call to Action) Structure:
+
+1.  **Direct Action + Benefit/Result:**
+    *   Template: `[Action Verb] [Implied/Direct Link] [Benefit/Result]`
+    *   Example: `Tap to learn more`, `Click to discover`, `Save this pin`
+    *   Logical Flow:
+        *   Start with a clear, actionable verb (Tap, Click, Save, Get, Discover, Learn).
+        *   Indicate what the user will get or achieve (learn more, discover ideas, save this pin, get the recipe).
+        *   Often implies further engagement or valuable content.
+
+2.  **Intrigue + Direct Action:**
+    *   Template: `[Intriguing Statement/Question] + [Direct Action]`
+    *   Example: `Are you looking for a flavorful, family-friendly weeknight meal? This easy taco casserole is your answer!`
+    *   Logical Flow:
+        *   Pose a question or make a statement that sparks interest or identifies a need.
+        *   Provide the solution or a clear pathway to it.
+        *   Encourages the user to click for more information or the solution.
