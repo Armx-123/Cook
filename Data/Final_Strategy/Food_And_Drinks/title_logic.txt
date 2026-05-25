@@ -1,14 +1,16 @@
-1. **[Number] + [Descriptor] + [Dish Type] + [Occasion/Benefit]**
-    * **Logic:** This formula is highly effective because it immediately tells the user what they're getting (a specific quantity), describes its appeal (e.g., "Delicious," "Fresh," "Easy"), identifies the food item (e.g., "Salads," "Side Dishes," "Dinners"), and highlights a benefit or context (e.g., "for Easy Meal Prep," "for Steak," "for Kids," "for Summer"). The inclusion of a number creates a sense of completeness and curated content.
+Here are 5 best 'Formula Structures' for Pinterest titles in 'Food_And_Drinks', based on the provided data:
 
-2. **[Number] + [Dish Type] + [Key Ingredients/Flavor Profile] + [Benefit/Occasion]**
-    * **Logic:** Similar to the first, this formula is strong because it provides quantity and the core food item. The addition of key ingredients or a flavor profile (e.g., "Mason Jar Salad," "Beetroot Salad," "Fruit Salad") makes the title more specific and appealing to users searching for particular tastes or meal formats. The benefit/occasion grounds it for practical use.
+1.  **Number + Adjective + Keyword + Benefit/Purpose**
+    *   **Logic:** This structure is highly effective because it immediately quantifies the content with a number, sets expectations with an adjective (e.g., "Amazing," "Best," "Healthy"), clearly states the main food item or recipe type, and then highlights what the user will gain (e.g., "for Diabetics," "DIY Spice Blends," "for Every Craving"). Numbers attract attention and indicate a curated list, while benefits address user needs.
 
-3. **[Number] + [Benefit/Occasion] + [Dish Type]**
-    * **Logic:** This formula prioritizes the user's need or desire. Starting with a number followed by a benefit (e.g., "Healthy," "High Protein," "Lazy," "Cheap") or occasion (e.g., "Summer," "4th of July," "BBQ") immediately grabs the attention of users looking for solutions to specific problems or events. The dish type clarifies what the content is about.
+2.  **Number + Adjective + Occasion/Theme + Noun (plural)**
+    *   **Logic:** This formula is extremely powerful for event-specific content. The number signifies a collection, the adjective adds appeal, the occasion or theme (like "Graduation," "Summer") immediately targets a specific user interest, and the plural noun (like "Ideas," "Desserts," "Cakes") indicates a broad range of possibilities. This structure directly taps into user searches for event planning.
 
-4. **[Action Verb] + [Dish Type/Concept] + [Benefit/Descriptor]**
-    * **Logic:** This formula uses an action-oriented approach, often implying ease, speed, or desirability. Phrases like "Make Ahead," "Easy," or "Mouth-Watering" paired with the food type and a positive descriptor encourage clicks by suggesting a positive outcome or a simple process.
+3.  **Adjective + Keyword + Benefit/Result**
+    *   **Logic:** This structure prioritizes descriptive words that create allure (e.g., "Irresistible," "Delicious," "Easy") followed by the core food item or recipe. The addition of a benefit or desired outcome (e.g., "That Taste Like Summer," "That Disappear Fast," "To Impress Your Guests") speaks directly to the user's desires and motivations for searching.
 
-5. **[Descriptor] + [Dish Type] + [Key Benefit/Feature]**
-    * **Logic:** This formula is direct and focuses on the most appealing aspects of the food. A strong descriptor (e.g., "Best," "Delicious," "Refreshing") followed by the food type and a key benefit (e.g., "for Easy Meal Prep," "to Fuel Your Day," "for Grab-and-Go Meals") clearly communicates value and solves a user's problem or fulfills a desire.
+4.  **Number + "Easy" + Keyword + Benefit/Purpose**
+    *   **Logic:** This formula capitalizes on the desire for simplicity and accessibility. The "easy" modifier is a strong hook for busy users or beginners. Combining it with a number signals a helpful collection, and the specific keyword and benefit provide clarity on what the user can achieve with minimal effort.
+
+5.  **Keyword + Benefit/Purpose + "For" + Target Audience/Occasion**
+    *   **Logic:** This structure is direct and user-centric. It starts with the primary keyword, clearly states the advantage or function of the recipe/item, and then specifies who or what it's for. This is highly effective for niche searches and clearly communicates the relevance and applicability of the content.
