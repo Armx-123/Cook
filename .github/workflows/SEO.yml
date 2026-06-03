@@ -54,7 +54,7 @@ jobs:
         
         # Add the specific folder (replace YOUR_FOLDER_NAME with your actual folder)
         # Using the folder name adds all subfolders and files inside it
-        git add Data/Cleaned_Text
+        git add Data/Final_Strategy
         
         # Only commit if there are actual changes to avoid workflow errors
         if git diff --quiet && git diff --staged --quiet; then
