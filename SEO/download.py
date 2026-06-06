@@ -8,7 +8,7 @@ MERGED_ZIP_PATH = "zip.zip"
 TEMP_DIR = "temp"  # Temporary directory for storing ZIP parts
 
 # Replace with the ID of the channel where the bot should upload the ZIP file
-CHANNEL_ID = 1505144954740146217  # Replace with your target channel ID
+CHANNEL_ID = 1504100661938356384  # Replace with your target channel ID
 
 # Discord bot setup
 intents = discord.Intents.default()
