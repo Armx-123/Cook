@@ -44,7 +44,7 @@ jobs:
       run: python SEO/download.py
 
     - name: Run Main Script
-      run: python main.py
+      run: python Files/SEO/main.py
 
     - name: Commit and Push changes
       run: |
