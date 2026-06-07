@@ -46,20 +46,10 @@ jobs:
     - name: Run Main Script
       run: python Files/SEO/main.py
 
-    - name: Commit and Push changes
-      run: |
-        # Configure Git with a generic bot identity
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        
-        # Add the specific folder (replace YOUR_FOLDER_NAME with your actual folder)
-        # Using the folder name adds all subfolders and files inside it
-        git add Data/Final_Strategy
-        
-        # Only commit if there are actual changes to avoid workflow errors
-        if git diff --quiet && git diff --staged --quiet; then
-          echo "No changes to commit"
-        else
-          git commit -m "Auto-update SEO data: $(date +'%Y-%m-%d %H:%M:%S')"
-          git push
-        fi
+    - name: Commit and push changes
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Auto-update SEO data: ${{ github.run_id }}"
+        file_pattern: 'Data/Final_Strategy/*'
+        commit_user_name: github-actions[bot]
+        commit_user_email: github-actions[bot]@users.noreply.github.com
