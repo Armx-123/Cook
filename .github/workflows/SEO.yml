@@ -46,10 +46,17 @@ jobs:
     - name: Run Main Script
       run: python Files/SEO/main.py
 
+    - name: Sync remote changes to prevent push rejection
+      run: |
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            # Safely stash uncommitted data, pull the latest remote changes, and unstash
+            git pull --rebase --autostash origin main
+    
     - name: Commit and push changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: "Auto-update SEO data: ${{ github.run_id }}"
-        file_pattern: 'Data/Final_Strategy/*'
-        commit_user_name: github-actions[bot]
-        commit_user_email: github-actions[bot]@users.noreply.github.com
+          commit_message: "Auto-update SEO data: ${{ github.run_id }}"
+          file_pattern: 'Data/Final_Strategy/*'
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
