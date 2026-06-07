@@ -1,16 +1,1 @@
-Here are 5 best 'Formula Structures' for titles based on the provided data, along with their logic and why they rank:
-
-    *   **Logic:** `Number + Adjective + Main Ingredient/Dish + Benefit/Occasion`
-    *   **Why it Ranks:** This structure is highly effective because it provides immediate value (the number of recipes), sets an expectation of quality and appeal (adjective), clearly identifies the subject matter (main ingredient/dish), and hints at the outcome or purpose (benefit/occasion). This creates a strong hook by promising quantity, quality, and relevance.
-
-    *   **Logic:** `Adjective + Main Ingredient/Dish + Benefit/Descriptor`
-    *   **Why it Ranks:** This formula excels by being concise and directly addressing what the user is looking for. The adjective primes them for a positive experience, the main ingredient is the core search term, and the benefit/descriptor adds a compelling reason to click, such as flavor, ease, or health.
-
-    *   **Logic:** `Number + Action Verb + Main Ingredient/Dish + Benefit/Occasion`
-    *   **Why it Ranks:** This structure is powerful because it combines the promise of multiple recipes (number) with an active, engaging verb that suggests a delicious outcome or a practical application (action verb). It then clearly defines the subject and its appeal or context.
-
-    *   **Logic:** `Adjective + Main Ingredient/Dish + Descriptor/Type + Benefit/Occasion`
-    *   **Why it Ranks:** This formula offers a more detailed yet still captivating description. It layers an attractive adjective with the main ingredient, then adds a specific descriptor for clarity or intrigue, and concludes with a benefit or occasion that resonates with user intent. This provides more context and thus a stronger signal of relevance.
-
-    *   **Logic:** `Adjective + Main Ingredient/Dish + Benefit/Descriptor + Specific Benefit/Action`
-    *   **Why it Ranks:** This structure is a hybrid that adds an extra layer of persuasive language. It starts with a strong appeal (adjective + main ingredient), offers a broad promise (benefit/descriptor), and then reinforces it with a specific call to action or a tangible benefit, making the title highly compelling and action-oriented.
+Error: Max retries exceeded due to persistent rate limiting.
