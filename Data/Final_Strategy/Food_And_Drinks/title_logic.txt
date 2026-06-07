@@ -1,1 +1,13 @@
+<<<<<<< Updated upstream
 Error: Max retries exceeded due to persistent rate limiting.
+=======
+    *   **Why it ranks:** Directly states the food item and immediately highlights a key positive attribute (e.g., easy, healthy, delicious, quick). This combination is highly scannable and appealing to users looking for specific outcomes or qualities.
+
+    *   **Why it ranks:** Clearly signals that a recipe is available. The added descriptor provides context and a hook, such as "easy," "summer," "vegan," or "weeknight," which helps users filter for their immediate needs.
+
+    *   **Why it ranks:** Categorizes the recipe upfront (e.g., "Chicken Recipe," "Dessert Recipe") and then specifies the core appeal through flavor or a star ingredient. This structure is good for broader search terms while still offering specificity.
+
+    *   **Why it ranks:** Uses an action-oriented phrase ("How to Make") which is a common search query. It clearly sets expectations for a tutorial or step-by-step guide and includes a desirable quality.
+
+    *   **Why it ranks:** Appeals to users planning for specific events or times of the year. It directly answers the need for "what to cook for X occasion" by combining the context with the food item and recipe format.
+>>>>>>> Stashed changes

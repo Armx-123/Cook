@@ -1,1 +1,7 @@
+<<<<<<< Updated upstream
 Error: Max retries exceeded due to persistent rate limiting.
+=======
+food and drinks
+food
+drinks
+>>>>>>> Stashed changes
