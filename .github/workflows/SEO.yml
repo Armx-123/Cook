@@ -24,6 +24,9 @@ jobs:
     steps:
     - name: Check out repository
       uses: actions/checkout@v4
+      with:
+        # Fetch all history so the hard reset works correctly
+        fetch-depth: 0 
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -46,34 +49,38 @@ jobs:
     - name: Run Main Script
       run: python Files/SEO/main.py
 
-    - name: Sync remote changes to prevent push rejection
+    - name: Commit and Force-Overwrite Data
       run: |
-            git config --global user.name 'github-actions[bot]'
-            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-            # Safely stash uncommitted data, pull the latest remote changes, and unstash
-            git pull --rebase --autostash origin main
-    
-    - name: Commit and Force-Sync (Bot Wins Conflicts)
-      run: |
-        # 1. Configure the GitHub Actions Bot
+        # 1. Configure the GitHub Actions Bot Identity
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         
-        # 2. Stage only the SEO data folder
+        # 2. Back up the newly generated SEO data outside Git's tracking
+        echo "Backing up fresh data..."
+        mkdir -p /tmp/seo_backup
+        # If the folder exists, copy everything. If not, don't crash.
+        [ -d "Data/Final_Strategy" ] && cp -r Data/Final_Strategy/* /tmp/seo_backup/ || true
+        
+        # 3. Force Git to perfectly match the remote repository
+        # This wipes out any local discrepancies and pulls the absolute newest remote state
+        echo "Hard resetting to latest remote state..."
+        git fetch origin main
+        git reset --hard origin/main
+        
+        # 4. Bring the fresh data back in, physically overwriting the older remote files
+        echo "Restoring fresh data..."
+        mkdir -p Data/Final_Strategy
+        cp -r /tmp/seo_backup/* Data/Final_Strategy/
+        
+        # 5. Stage the specific folder
         git add Data/Final_Strategy/*
         
-        # 3. Check if the Python script actually generated new data
+        # 6. Check if the Python script actually changed any data
         if git diff --staged --quiet; then
           echo "No new SEO data generated. Skipping commit."
           exit 0
         fi
         
-        # 4. Save the bot's new data locally
+        # 7. Commit and Push
         git commit -m "Auto-update SEO data: ${{ github.run_id }}"
-        
-        # 5. Pull the latest remote history. 
-        # '-X theirs' tells Git: If there is a conflict, ALWAYS overwrite the remote data with the bot's data.
-        git pull --rebase -X theirs origin main
-        
-        # 6. Push the finalized overwrites back to GitHub
         git push origin main
