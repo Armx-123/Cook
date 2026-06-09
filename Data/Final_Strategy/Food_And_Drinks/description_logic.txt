@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 **Most Effective Hook Styles:**
 
     *   Template: [Number] [Benefit] [Dish/Recipe Type] for [Occasion/Result].
@@ -26,3 +27,26 @@
     *   "Pin this for later!"
     *   "Get the simple steps for making these flavorful treats today. Click for the answer."
     *   "Tap to get the full recipe and save it to your chicken recipes board!"
+=======
+**Hook Styles:**
+
+    *   **Template:** [Adjective 1] [Adjective 2] [Dish Name]! [Key Benefit/Result]
+    *   **Example:** Crispy Baked Eggplant Parmesan! All the cheesy goodness you crave without the guilt.
+
+    *   **Template:** Tired of [Common Problem]? Discover the secret to [Desired Outcome] [Dish Name].
+    *   **Example:** Discover the secret to a crispy, not soggy, oven-baked Eggplant Parmesan.
+
+    *   **Template:** Discover the secret to [Unique Feature] [Dish Name]!
+    *   **Example:** Discover the secret to Crispy Baked Eggplant Parmesan!
+
+**Call to Action (CTA) Structure:**
+
+*   **Direct Instruction + Urgency/Benefit:** Clearly tells the user what to do and why/when they should do it.
+
+    *   **Template:** [Action Verb] + [Recipe/Dish Name] + [Urgency/Benefit/Location]
+    *   **Examples:**
+        *   Save this recipe to try tonight!
+        *   Tap for the recipe.
+        *   Follow our step-by-step guide and make this Classic Italian Eggplant Parmesan recipe today!
+        *   Tap to get the full recipe on CrispyBowl.com.
+>>>>>>> Stashed changes
