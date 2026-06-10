@@ -59,7 +59,7 @@ jobs:
         echo "Backing up fresh data..."
         mkdir -p /tmp/seo_backup
         # If the folder exists, copy everything. If not, don't crash.
-        [ -d "Data/Final_Strategy" ] && cp -r Data/Final_Strategy/* /tmp/seo_backup/ || true
+        [ -d "Data/Final_Strategy" ] && cp -r Data/Cleaned_Text/* /tmp/seo_backup/ || true
         
         # 3. Force Git to perfectly match the remote repository
         # This wipes out any local discrepancies and pulls the absolute newest remote state
