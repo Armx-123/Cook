@@ -52,7 +52,7 @@ jobs:
     - name: Commit and Force-Overwrite Data
       run: |
         # Define the target data directory
-        DATA_DIR="Data/Cleaned_Text"
+        DATA_DIR="Data/Final_Strategy"
 
         # 1. Configure the GitHub Actions Bot Identity
         git config --global user.name 'github-actions[bot]'
