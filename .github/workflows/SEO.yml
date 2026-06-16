@@ -51,6 +51,9 @@ jobs:
 
     - name: Commit and Force-Overwrite Data
       run: |
+        # Define the target data directory
+        DATA_DIR="Data/Cleaned_Text"
+
         # 1. Configure the GitHub Actions Bot Identity
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -59,7 +62,7 @@ jobs:
         echo "Backing up fresh data..."
         mkdir -p /tmp/seo_backup
         # If the folder exists, copy everything. If not, don't crash.
-        [ -d "Data/Final_Strategy" ] && cp -r Data/Final_Strategy/* /tmp/seo_backup/ || true
+        [ -d "$DATA_DIR" ] && cp -r "$DATA_DIR"/* /tmp/seo_backup/ || true
         
         # 3. Force Git to perfectly match the remote repository
         # This wipes out any local discrepancies and pulls the absolute newest remote state
@@ -69,11 +72,11 @@ jobs:
         
         # 4. Bring the fresh data back in, physically overwriting the older remote files
         echo "Restoring fresh data..."
-        mkdir -p Data/Final_Strategy
-        cp -r /tmp/seo_backup/* Data/Final_Strategy/
+        mkdir -p "$DATA_DIR"
+        cp -r /tmp/seo_backup/* "$DATA_DIR"/
         
         # 5. Stage the specific folder
-        git add Data/Final_Strategy/*
+        git add "$DATA_DIR"/*
         
         # 6. Check if the Python script actually changed any data
         if git diff --staged --quiet; then
