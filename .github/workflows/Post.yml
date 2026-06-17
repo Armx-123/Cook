@@ -40,6 +40,11 @@ jobs:
         pip install playwright
         playwright install --with-deps
 
+    - name: Install OpenVPN Client Backend
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y openvpn
+        
     - name: Run SEO Script
       run: python SEO/download.py
 
