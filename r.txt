@@ -6,6 +6,7 @@ anyio==4.13.0
 attrs==26.1.0
 certifi==2026.4.22
 cffi==2.0.0
+opencv-python==4.13.0.90
 charset-normalizer==3.4.7
 cryptography==48.0.0
 discord==2.3.2
