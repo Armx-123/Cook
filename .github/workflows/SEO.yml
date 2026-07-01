@@ -1,8 +1,6 @@
 name: SEO Download Script
 
 on:
-  push:
-    branches: [ "main" ]
   workflow_dispatch:
   # Runs at 00:00 UTC every Monday
   schedule:
