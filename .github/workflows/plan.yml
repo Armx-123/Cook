@@ -35,4 +35,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Auto-update post.yml for $(date +%Y-%m-%d)"
-          file_pattern: 'post.yml'
+          file_pattern: 'Post.yml'
