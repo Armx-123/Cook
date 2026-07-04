@@ -97,7 +97,8 @@ def update_github_workflow(yaml_content):
     g = Github(auth=auth)
 
     repo = g.get_repo(REPO_NAME)
-
+    user = g.get_user()
+    print(user.login)
     print(f"Connected to: {repo.full_name}")
     print(f"Default branch: {repo.default_branch}")
 
@@ -109,7 +110,7 @@ def update_github_workflow(yaml_content):
 
     # Get the existing workflow file
     workflow_file = repo.get_contents(WORKFLOW_PATH, ref=BRANCH)
-
+    
     # Update it
     repo.update_file(
         path=WORKFLOW_PATH,
