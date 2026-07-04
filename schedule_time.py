@@ -3,6 +3,7 @@ import os
 
 # ============================ CONFIG ============================
 GITHUB_TOKEN = os.environ["GIT"]  # Personal Access Token
+print(GITHUB_TOKEN[:10])
 REPO_NAME = "Armx-123/Cook"
 BRANCH = "main"
 
@@ -117,6 +118,15 @@ def update_github_workflow(yaml_content):
         message="🤖 Auto-update workflow schedule",
         content=yaml_content,
         sha=workflow_file.sha,
+        branch=BRANCH,
+    )
+    README = repo.get_contents("README.md", ref=BRANCH)
+
+    repo.update_file(
+        "README.md",
+        "test",
+        README.decoded_content.decode() + "\n",
+        README.sha,
         branch=BRANCH,
     )
 
