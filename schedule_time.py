@@ -1,4 +1,4 @@
-from github import Github
+from github import Github, Auth
 import os
 
 # ============================ CONFIG ============================
@@ -88,7 +88,8 @@ def generate_workflow_yaml(cron_lines):
 
 
 def update_github_workflow(yaml_content):
-    g = Github(GITHUB_TOKEN)
+    auth = Auth.Token(GITHUB_TOKEN)
+    g = Github(auth=auth)
     repo = g.get_repo(REPO_NAME)
 
     contents = repo.get_contents(WORKFLOW_PATH, ref=BRANCH)
