@@ -93,7 +93,16 @@ def update_github_workflow(yaml_content):
     repo = g.get_repo(REPO_NAME)
 
     contents = repo.get_contents(WORKFLOW_PATH, ref=BRANCH)
-
+    print("Repo:", REPO_NAME)
+    print("Branch:", BRANCH)
+    print("Workflow:", WORKFLOW_PATH)
+    
+    repo = g.get_repo(REPO_NAME)
+    print("Connected to:", repo.full_name)
+    
+    contents = repo.get_contents(".github/workflows", ref=BRANCH)
+    for f in contents:
+        print(f.path)
     repo.update_file(
         path=WORKFLOW_PATH,
         message="🤖 Auto-update workflow schedule",
