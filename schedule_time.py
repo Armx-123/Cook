@@ -110,16 +110,16 @@ def update_github_workflow(yaml_content):
         print(f" - {f.path}")
 
     # Get the existing workflow file
-    workflow_file = repo.get_contents(WORKFLOW_PATH, ref=BRANCH)
+    # workflow_file = repo.get_contents(WORKFLOW_PATH, ref=BRANCH)
     
-    # Update it
-    repo.update_file(
-        path=WORKFLOW_PATH,
-        message="🤖 Auto-update workflow schedule",
-        content=yaml_content,
-        sha=workflow_file.sha,
-        branch=BRANCH,
-    )
+    # # Update it
+    # repo.update_file(
+    #     path=WORKFLOW_PATH,
+    #     message="🤖 Auto-update workflow schedule",
+    #     content=yaml_content,
+    #     sha=workflow_file.sha,
+    #     branch=BRANCH,
+    # )
     README = repo.get_contents("README.md", ref=BRANCH)
 
     repo.update_file(
