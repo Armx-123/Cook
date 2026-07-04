@@ -2,7 +2,7 @@ from github import Github, Auth
 import os
 
 # ============================ CONFIG ============================
-GITHUB_TOKEN = os.environ["GIT"]
+GITHUB_TOKEN = os.environ["GIT"]  # Personal Access Token
 REPO_NAME = "Armx-123/Cook"
 BRANCH = "main"
 
@@ -12,11 +12,14 @@ TIMES_FILE = "times.txt"
 
 
 def read_cron_times(filepath):
+    """Read cron expressions from times.txt"""
     with open(filepath, "r", encoding="utf-8") as f:
         return [line.strip() for line in f if line.strip()]
 
 
 def generate_workflow_yaml(cron_lines):
+    """Generate the workflow YAML with schedules from times.txt"""
+
     yaml = [
         "name: Post on Pinterest",
         "",
@@ -25,7 +28,7 @@ def generate_workflow_yaml(cron_lines):
         "  schedule:",
     ]
 
-    # Add every cron expression from times.txt
+    # Add all cron schedules
     for cron in cron_lines:
         yaml.append(f"    - cron: '{cron}'")
 
@@ -88,33 +91,46 @@ def generate_workflow_yaml(cron_lines):
 
 
 def update_github_workflow(yaml_content):
+    """Update the workflow file in GitHub"""
+
     auth = Auth.Token(GITHUB_TOKEN)
     g = Github(auth=auth)
+
     repo = g.get_repo(REPO_NAME)
 
-    contents = repo.get_contents(WORKFLOW_PATH, ref=BRANCH)
-    print("Repo:", REPO_NAME)
-    print("Branch:", BRANCH)
-    print("Workflow:", WORKFLOW_PATH)
-    
-    repo = g.get_repo(REPO_NAME)
-    print("Connected to:", repo.full_name)
-    
-    contents = repo.get_contents(".github/workflows", ref=BRANCH)
-    for f in contents:
-        print(f.path)
+    print(f"Connected to: {repo.full_name}")
+    print(f"Default branch: {repo.default_branch}")
+
+    # Show available workflow files (debug)
+    print("\nWorkflow files:")
+    workflow_files = repo.get_contents(".github/workflows", ref=BRANCH)
+    for f in workflow_files:
+        print(f" - {f.path}")
+
+    # Get the existing workflow file
+    workflow_file = repo.get_contents(WORKFLOW_PATH, ref=BRANCH)
+
+    # Update it
     repo.update_file(
         path=WORKFLOW_PATH,
         message="🤖 Auto-update workflow schedule",
         content=yaml_content,
-        sha=contents.sha,
+        sha=workflow_file.sha,
         branch=BRANCH,
     )
 
-    print("✅ Workflow updated successfully!")
+    print("\n✅ Workflow updated successfully!")
+
+
+def main():
+    cron_times = read_cron_times(TIMES_FILE)
+
+    if not cron_times:
+        raise ValueError("times.txt is empty!")
+
+    workflow_yaml = generate_workflow_yaml(cron_times)
+    update_github_workflow(workflow_yaml)
 
 
 if __name__ == "__main__":
-    cron_times = read_cron_times(TIMES_FILE)
-    workflow = generate_workflow_yaml(cron_times)
-    update_github_workflow(workflow)
+    main()
