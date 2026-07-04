@@ -2,17 +2,18 @@ name: Post on Pinterest
 
 on:
   workflow_dispatch:
-  # Runs at 00:00 UTC every Monday
   schedule:
-    - cron: '0 0 * * 1'
+    - cron: '43 11 * * *'
+    - cron: '34 21 * * *'
+    - cron: '31 1 * * *'
 
 jobs:
   run-seo-script:
     runs-on: ubuntu-latest
-    # Required to push changes back to the repository
+
     permissions:
       contents: write
-    
+
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       RYNX: ${{ secrets.RYNX }}
@@ -20,42 +21,40 @@ jobs:
       PINTEREST_CLIENT_SECRET: ${{ secrets.PINTEREST_CLIENT_SECRET }}
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-    # 1. NEW: Cache Hugging Face models to speed up consecutive runs and save bandwidth
-    - name: Cache Hugging Face Models
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/huggingface
-        key: ${{ runner.os }}-hf-florence2
-        restore-keys: |
-          ${{ runner.os }}-hf-florence2-
+      - name: Cache Hugging Face Models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-hf-florence2
+          restore-keys: |
+            ${{ runner.os }}-hf-florence2-
 
-    # 2. CORRECTED: Force PyTorch CPU wheels before checking r.txt to avoid the 2.5GB CUDA download
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-        pip install -r r.txt
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          pip install -r r.txt
 
-    - name: Install Playwright Browsers
-      run: |
-        pip install playwright
-        playwright install --with-deps
+      - name: Install Playwright Browsers
+        run: |
+          pip install playwright
+          playwright install --with-deps
 
-    - name: Install OpenVPN Client Backend
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y openvpn
-        
-    - name: Run SEO Script
-      run: python SEO/download.py
+      - name: Install OpenVPN Client Backend
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openvpn
 
-    - name: Run Main Script
-      run: python main.py
+      - name: Run SEO Script
+        run: python SEO/download.py
+
+      - name: Run Main Script
+        run: python main.py
