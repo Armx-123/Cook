@@ -1,38 +1,38 @@
-name: Update Post Schedule
+
+name: Time
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # Runs at 00:00 UTC every day
+    - cron: "0 0 * * *"  # Runs every day at midnight (UTC)
+  workflow_dispatch:     # Allows manual triggering
+
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true  # Required for FFmpeg installation
+  GIT: ${{ secrets.GIT}}
+  
+
 
 jobs:
-  update-config:
+  scrape-latest:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    
+
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
-      - name: Generate New Schedule
-        run: |
-          # Generate 3 random times in HH:MM format
-          t1=$(printf "%02d:%02d" $((RANDOM%24)) $((RANDOM%60)))
-          t2=$(printf "%02d:%02d" $((RANDOM%24)) $((RANDOM%60)))
-          t3=$(printf "%02d:%02d" $((RANDOM%24)) $((RANDOM%60)))
-          
-          # Overwrite post.yml with the new array
-          cat <<EOF > post.yml
-          date: $(date +%Y-%m-%d)
-          post_times:
-            - "$t1"
-            - "$t2"
-            - "$t3"
-          EOF
-
-      - name: Commit and Push
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Set up Python
+        uses: actions/setup-python@v3
         with:
-          commit_message: "Auto-update post.yml for $(date +%Y-%m-%d)"
-          file_pattern: 'Post.yml'
+          python-version: '3.12.2'
+
+      - name: Install requirements
+        run: pip install PyGithub
+
+      - name: Test env vars for python
+        run: TEST_SECRET=${{ secrets.GIT}}
+        
+      - name: Cron
+        run: python make_time.py
+        
+      - name: Schedule
+        run: python schedule_time.py
