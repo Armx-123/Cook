@@ -2,85 +2,109 @@ from github import Github
 import os
 
 # ============================ CONFIG ============================
-GITHUB_TOKEN = os.environ['GIT'] # Or paste your token directly (not recommended)
-REPO_NAME = "Armx-123/instagram-meme"  # Format: user/repo
+GITHUB_TOKEN = os.environ["GIT"]
+REPO_NAME = "Armx-123/Cook"
 BRANCH = "main"
-WORKFLOW_PATH = ".github/workflows/Upload.yml"
+
+WORKFLOW_PATH = ".github/workflows/Post.yml"
 TIMES_FILE = "times.txt"
-# ==============================================================
+# ===============================================================
 
 
 def read_cron_times(filepath):
-    with open(filepath, "r") as f:
-        lines = f.read().strip().splitlines()
-    return lines
+    with open(filepath, "r", encoding="utf-8") as f:
+        return [line.strip() for line in f if line.strip()]
 
 
 def generate_workflow_yaml(cron_lines):
-    indent = " " * 4
-    lines = [
-        "name: Upload",
+    yaml = [
+        "name: Post on Pinterest",
         "",
         "on:",
+        "  workflow_dispatch:",
         "  schedule:",
     ]
+
+    # Add every cron expression from times.txt
     for cron in cron_lines:
-        lines.append(f"{indent}- cron: \"{cron}\"")
-    lines.append("  workflow_dispatch:")
-    lines.append("")
-    lines.append("env:")
-    lines.append("  ACTIONS_ALLOW_UNSECURE_COMMANDS: true")
-    lines.append("  RYNX: ${{ secrets.RYNX }}")
-    lines.append("  CYBRIX: ${{ secrets.CYBRIX }}")
-    lines.append("")
-    lines.extend([
-        "jobs:",
-        "  scrape-latest:",
-        "    runs-on: ubuntu-latest",
-        "    steps:",
-        "      - name: Checkout repo",
-        "        uses: actions/checkout@v2",
+        yaml.append(f"    - cron: '{cron}'")
+
+    yaml.extend([
         "",
-        "      - name: Setup FFmpeg",
-        "        uses: federicocarboni/setup-ffmpeg@v3.1",
+        "jobs:",
+        "  run-seo-script:",
+        "    runs-on: ubuntu-latest",
+        "",
+        "    permissions:",
+        "      contents: write",
+        "",
+        "    env:",
+        "      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}",
+        "      RYNX: ${{ secrets.RYNX }}",
+        "      PINTEREST_CLIENT_ID: ${{ secrets.PINTEREST_CLIENT_ID }}",
+        "      PINTEREST_CLIENT_SECRET: ${{ secrets.PINTEREST_CLIENT_SECRET }}",
+        "",
+        "    steps:",
+        "      - name: Check out repository",
+        "        uses: actions/checkout@v4",
         "",
         "      - name: Set up Python",
-        "        uses: actions/setup-python@v3",
+        "        uses: actions/setup-python@v5",
         "        with:",
-        "          python-version: '3.12.2'",
+        "          python-version: '3.12'",
         "",
-        "      - name: Install requirements",
-        "        run: pip install -r r.txt",
+        "      - name: Cache Hugging Face Models",
+        "        uses: actions/cache@v4",
+        "        with:",
+        "          path: ~/.cache/huggingface",
+        "          key: ${{ runner.os }}-hf-florence2",
+        "          restore-keys: |",
+        "            ${{ runner.os }}-hf-florence2-",
         "",
-        "      - name: Test env vars for python",
-        "        run: TEST_SECRET=${{ secrets.RYNX }}",
+        "      - name: Install Python dependencies",
+        "        run: |",
+        "          python -m pip install --upgrade pip",
+        "          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu",
+        "          pip install -r r.txt",
         "",
-        "      - name: Download",
-        "        run: python download.py",
+        "      - name: Install Playwright Browsers",
+        "        run: |",
+        "          pip install playwright",
+        "          playwright install --with-deps",
         "",
-        "      - name: Process",
-        "        run: python post_main.py"
+        "      - name: Install OpenVPN Client Backend",
+        "        run: |",
+        "          sudo apt-get update",
+        "          sudo apt-get install -y openvpn",
+        "",
+        "      - name: Run SEO Script",
+        "        run: python SEO/download.py",
+        "",
+        "      - name: Run Main Script",
+        "        run: python main.py",
     ])
-    return "\n".join(lines)
+
+    return "\n".join(yaml)
 
 
 def update_github_workflow(yaml_content):
     g = Github(GITHUB_TOKEN)
     repo = g.get_repo(REPO_NAME)
+
     contents = repo.get_contents(WORKFLOW_PATH, ref=BRANCH)
 
     repo.update_file(
         path=WORKFLOW_PATH,
-        message="🛠️ Auto-update upload.yml from script",
+        message="🤖 Auto-update workflow schedule",
         content=yaml_content,
         sha=contents.sha,
-        branch=BRANCH
+        branch=BRANCH,
     )
-    print("✅ upload.yml successfully pushed to GitHub!")
+
+    print("✅ Workflow updated successfully!")
 
 
-# ========== MAIN ==========
 if __name__ == "__main__":
     cron_times = read_cron_times(TIMES_FILE)
-    new_yaml = generate_workflow_yaml(cron_times)
-    update_github_workflow(new_yaml)
+    workflow = generate_workflow_yaml(cron_times)
+    update_github_workflow(workflow)
