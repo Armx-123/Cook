@@ -6,7 +6,7 @@ def cron():
     hour = r(0,22)
     return minute,hour
 
-for i in range(0,3,1):
+for i in range(0,5,1):
     t= f"{cron()[0]} {cron()[1]} * * *"
     with open("times.txt","a") as f:
         f.write(t+"\n")
