@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '20 17 * * *'
-    - cron: '14 8 * * *'
-    - cron: '15 14 * * *'
-    - cron: '12 7 * * *'
-    - cron: '32 17 * * *'
+    - cron: '52 21 * * *'
+    - cron: '46 15 * * *'
+    - cron: '7 17 * * *'
+    - cron: '15 2 * * *'
 
 jobs:
   run-seo-script:
