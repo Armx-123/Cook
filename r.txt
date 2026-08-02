@@ -62,3 +62,4 @@ transformers==4.44.2
 timm
 einops
 safetensors
+yt-dlp==2026.3.17
