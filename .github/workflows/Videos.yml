@@ -1,4 +1,4 @@
-name: Post on Pinterest
+name: Videos
 
 on:
   workflow_dispatch:
