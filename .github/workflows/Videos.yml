@@ -59,4 +59,4 @@ jobs:
         run: python SEO/download.py
 
       - name: Run Main Script
-        run: python main.py
+        run: python video_main.py
