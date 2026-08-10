@@ -1,4 +1,4 @@
-name: SEO Download Script
+name: E Books
 
 on:
   workflow_dispatch:
