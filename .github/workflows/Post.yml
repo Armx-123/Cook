@@ -3,11 +3,11 @@ name: Post on Pinterest
 on:
   workflow_dispatch:
   schedule:
-    - cron: '15 15 * * *'
-    - cron: '13 7 * * *'
-    - cron: '29 10 * * *'
-    - cron: '21 16 * * *'
-    - cron: '50 16 * * *'
+    - cron: '39 12 * * *'
+    - cron: '34 13 * * *'
+    - cron: '57 21 * * *'
+    - cron: '40 2 * * *'
+    - cron: '43 11 * * *'
 
 jobs:
   run-seo-script:
