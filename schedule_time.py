@@ -8,7 +8,7 @@ from github.GithubException import UnknownObjectException
 GITHUB_TOKEN = os.environ.get("GIT") 
 REPO_NAME = "Armx-123/Cook"
 BRANCH = "main"
-DATA_FILE = "content.txt"
+DATA_FILE = "Data/Final_Strategy/Food_And_Drinks/keyword_bank.txt"
 
 # Configuration dictionary replacing the need for an external JSON.
 # offset: Minutes to offset the time to prevent GitHub/API rate limits.
