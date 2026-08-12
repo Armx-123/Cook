@@ -1,5 +1,6 @@
 import os
 import base64
+from datetime import datetime, timezone
 from random import randint as r
 from github import Github, Auth
 from github.GithubException import UnknownObjectException
@@ -8,11 +9,12 @@ from github.GithubException import UnknownObjectException
 GITHUB_TOKEN = os.environ.get("GIT") 
 REPO_NAME = "Armx-123/Cook"
 BRANCH = "main"
+
+# The file containing the keyword lines to be divided
 DATA_FILE = "Data/Final_Strategy/Food_And_Drinks/keyword_bank.txt"
 
-# Configuration dictionary replacing the need for an external JSON.
-# offset: Minutes to offset the time to prevent GitHub/API rate limits.
-# use_remainder: Boolean deciding if this workflow gets the extra day-specific crons.
+# Offset configuration to prevent API rate limits. 
+# "use_remainder" dictates if this specific workflow gets the extra posts.
 WORKFLOW_CONFIG = {
     "Post.yml":   {"offset": 0,  "use_remainder": False},
     "Videos.yml": {"offset": 5,  "use_remainder": False},
@@ -20,45 +22,40 @@ WORKFLOW_CONFIG = {
 }
 # ===============================================================
 
-def get_schedule_counts(filepath):
-    """Calculate the base daily schedules and the remainder."""
+def calculate_todays_schedules(filepath, use_remainder):
+    """Calculates how many posts should be scheduled strictly for TODAY."""
     try:
         with open(filepath, "r", encoding="utf-8") as f:
-            lines = sum(1 for line in f if line.strip())
+            total_lines = sum(1 for line in f if line.strip())
             
-        base_count = lines // 7
-        remainder = lines % 7
+        base_count = total_lines // 7
+        remainder = total_lines % 7
         
-        print(f"📄 Found {lines} lines.")
-        print(f"📊 Base daily schedules: {base_count}")
-        print(f"📊 Remainder schedules: {remainder}")
+        # ISO Weekday: 1 = Monday, 2 = Tuesday ... 7 = Sunday
+        current_day = datetime.now(timezone.utc).isoweekday()
         
-        return base_count, remainder
+        # If this workflow uses remainders, and today falls within the remainder distribution
+        if use_remainder and current_day <= remainder:
+            todays_total = base_count + 1
+            print(f"📊 Today gets an extra post! (Base {base_count} + 1 Remainder)")
+        else:
+            todays_total = base_count
+            print(f"📊 Today gets base schedules only: {base_count}")
+            
+        return max(1, min(todays_total, 60)) # Cap at 60 for GitHub limits
     
     except FileNotFoundError:
-        print(f"⚠️ {filepath} not found. Defaulting to 1 base schedule, 0 remainder.")
-        return 1, 0
+        print(f"⚠️ {filepath} not found. Defaulting to 1 schedule for today.")
+        return 1
 
-def generate_base_crons(count):
-    """Generate daily cron times (* * *)."""
+def generate_todays_crons(count):
+    """Generates random times strictly between 01:00 and 23:59 UTC."""
     crons = []
-    # Cap base schedules at 50 to leave room for remainders without hitting GitHub's 60 limit
-    count = max(1, min(count, 50))
     for _ in range(count):
         minute = r(0, 59)
-        hour = r(0, 22)
+        # Assuming script runs at 00:00 UTC, schedule hours 1-23 so they are in the future
+        hour = r(1, 23) 
         crons.append(f"{minute} {hour} * * *")
-    return crons
-
-def generate_remainder_crons(remainder):
-    """Generate day-specific cron times starting from Monday (1)."""
-    crons = []
-    # Remainder will logically never exceed 6 (since modulo 7 maxes at 6).
-    for day in range(1, remainder + 1):
-        minute = r(0, 59)
-        hour = r(0, 22)
-        # format: minute hour day_of_month month day_of_week
-        crons.append(f"{minute} {hour} * * {day}")
     return crons
 
 def offset_cron_time(cron_str, offset_minutes):
@@ -99,22 +96,22 @@ def inject_schedules_into_yaml(original_yaml, new_crons):
         
     return "\n".join(out_lines)
 
-def update_github_workflows(config, base_crons, remainder_crons):
-    """Iterate through the configured files, apply logic, and push."""
+def update_github_workflows(config):
+    """Iterate through workflows, calculate today's count, generate times, and push."""
     auth = Auth.Token(GITHUB_TOKEN)
     g = Github(auth=auth)
     repo = g.get_repo(REPO_NAME)
     
     for workflow_name, settings in config.items():
+        print(f"\n--- Processing {workflow_name} ---")
         workflow_path = f".github/workflows/{workflow_name}"
-        offset = settings["offset"]
         
-        # 1. Apply offsets to base crons
-        final_crons = [offset_cron_time(c, offset) for c in base_crons]
+        # 1. Calculate how many posts THIS workflow needs TODAY
+        todays_count = calculate_todays_schedules(DATA_FILE, settings["use_remainder"])
         
-        # 2. If eligible, append the remainder crons (with the same offset)
-        if settings["use_remainder"] and remainder_crons:
-            final_crons.extend([offset_cron_time(c, offset) for c in remainder_crons])
+        # 2. Generate times and apply rate-limit offsets
+        base_crons = generate_todays_crons(todays_count)
+        final_crons = [offset_cron_time(c, settings["offset"]) for c in base_crons]
             
         try:
             workflow_file = repo.get_contents(workflow_path, ref=BRANCH)
@@ -125,25 +122,17 @@ def update_github_workflows(config, base_crons, remainder_crons):
             if original_yaml.strip() != updated_yaml.strip():
                 repo.update_file(
                     path=workflow_path,
-                    message=f"🤖 Auto-update schedule for {workflow_name}",
+                    message=f"🤖 Auto-update 24h schedule for {workflow_name}",
                     content=updated_yaml,
                     sha=workflow_file.sha,
                     branch=BRANCH,
                 )
-                print(f"✅ Updated {workflow_name} with {len(final_crons)} total schedules.")
+                print(f"✅ Updated {workflow_name} with {len(final_crons)} times for today.")
             else:
                 print(f"⏩ No changes needed for: {workflow_name}")
                 
         except UnknownObjectException:
             print(f"❌ Error: {workflow_name} not found in the repository!")
 
-def main():
-    base_count, remainder = get_schedule_counts(DATA_FILE)
-    
-    base_crons = generate_base_crons(base_count)
-    remainder_crons = generate_remainder_crons(remainder) if remainder > 0 else []
-    
-    update_github_workflows(WORKFLOW_CONFIG, base_crons, remainder_crons)
-
 if __name__ == "__main__":
-    main()
+    update_github_workflows(WORKFLOW_CONFIG)
