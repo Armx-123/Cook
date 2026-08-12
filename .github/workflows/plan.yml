@@ -31,8 +31,5 @@ jobs:
       - name: Test env vars for python
         run: TEST_SECRET=${{ secrets.GIT}}
         
-      - name: Cron
-        run: python make_time.py
-        
       - name: Schedule
         run: python schedule_time.py
