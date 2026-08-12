@@ -1,147 +1,149 @@
-from github import Github, Auth
 import os
+import base64
+from random import randint as r
+from github import Github, Auth
+from github.GithubException import UnknownObjectException
 
 # ============================ CONFIG ============================
-GITHUB_TOKEN = os.environ["GIT"]  # Personal Access Token
-print(GITHUB_TOKEN[:10])
+GITHUB_TOKEN = os.environ.get("GIT") 
 REPO_NAME = "Armx-123/Cook"
 BRANCH = "main"
+DATA_FILE = "content.txt"
 
-WORKFLOW_PATH = ".github/workflows/Post.yml"
-TIMES_FILE = "times.txt"
+# Configuration dictionary replacing the need for an external JSON.
+# offset: Minutes to offset the time to prevent GitHub/API rate limits.
+# use_remainder: Boolean deciding if this workflow gets the extra day-specific crons.
+WORKFLOW_CONFIG = {
+    "Post.yml":   {"offset": 0,  "use_remainder": False},
+    "Videos.yml": {"offset": 5,  "use_remainder": False},
+    "E_Books.yml":{"offset": 10, "use_remainder": True}
+}
 # ===============================================================
 
+def get_schedule_counts(filepath):
+    """Calculate the base daily schedules and the remainder."""
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            lines = sum(1 for line in f if line.strip())
+            
+        base_count = lines // 7
+        remainder = lines % 7
+        
+        print(f"📄 Found {lines} lines.")
+        print(f"📊 Base daily schedules: {base_count}")
+        print(f"📊 Remainder schedules: {remainder}")
+        
+        return base_count, remainder
+    
+    except FileNotFoundError:
+        print(f"⚠️ {filepath} not found. Defaulting to 1 base schedule, 0 remainder.")
+        return 1, 0
 
-def read_cron_times(filepath):
-    """Read cron expressions from times.txt"""
-    with open(filepath, "r", encoding="utf-8") as f:
-        return [line.strip() for line in f if line.strip()]
+def generate_base_crons(count):
+    """Generate daily cron times (* * *)."""
+    crons = []
+    # Cap base schedules at 50 to leave room for remainders without hitting GitHub's 60 limit
+    count = max(1, min(count, 50))
+    for _ in range(count):
+        minute = r(0, 59)
+        hour = r(0, 22)
+        crons.append(f"{minute} {hour} * * *")
+    return crons
 
+def generate_remainder_crons(remainder):
+    """Generate day-specific cron times starting from Monday (1)."""
+    crons = []
+    # Remainder will logically never exceed 6 (since modulo 7 maxes at 6).
+    for day in range(1, remainder + 1):
+        minute = r(0, 59)
+        hour = r(0, 22)
+        # format: minute hour day_of_month month day_of_week
+        crons.append(f"{minute} {hour} * * {day}")
+    return crons
 
-def generate_workflow_yaml(cron_lines):
-    """Generate the workflow YAML with schedules from times.txt"""
+def offset_cron_time(cron_str, offset_minutes):
+    """Adds a minute offset to a cron string to prevent concurrent API rate limits."""
+    parts = cron_str.split(" ")
+    minute = int(parts[0])
+    hour = int(parts[1])
+    
+    minute += offset_minutes
+    if minute > 59:
+        minute -= 60
+        hour = (hour + 1) % 24
+        
+    return f"{minute} {hour} {parts[2]} {parts[3]} {parts[4]}"
 
-    yaml = [
-        "name: Post on Pinterest",
-        "",
-        "on:",
-        "  workflow_dispatch:",
-        "  schedule:",
-    ]
+def inject_schedules_into_yaml(original_yaml, new_crons):
+    """Safely replaces the schedule block while preserving the rest of the YAML."""
+    lines = original_yaml.splitlines()
+    out_lines = []
+    skip_mode = False
+    
+    for line in lines:
+        if line.strip() == "schedule:":
+            out_lines.append(line)
+            for cron in new_crons:
+                out_lines.append(f"    - cron: '{cron}'")
+            out_lines.append("")
+            skip_mode = True
+            continue
+        
+        if skip_mode:
+            if line.strip() == "jobs:":
+                skip_mode = False
+                out_lines.append(line)
+            continue
+        
+        out_lines.append(line)
+        
+    return "\n".join(out_lines)
 
-    # Add all cron schedules
-    for cron in cron_lines:
-        yaml.append(f"    - cron: '{cron}'")
-
-    yaml.extend([
-        "",
-        "jobs:",
-        "  run-seo-script:",
-        "    runs-on: ubuntu-latest",
-        "",
-        "    permissions:",
-        "      contents: write",
-        "",
-        "    env:",
-        "      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}",
-        "      RYNX: ${{ secrets.RYNX }}",
-        "      PINTEREST_CLIENT_ID: ${{ secrets.PINTEREST_CLIENT_ID }}",
-        "      PINTEREST_CLIENT_SECRET: ${{ secrets.PINTEREST_CLIENT_SECRET }}",
-        "",
-        "    steps:",
-        "      - name: Check out repository",
-        "        uses: actions/checkout@v4",
-        "",
-        "      - name: Set up Python",
-        "        uses: actions/setup-python@v5",
-        "        with:",
-        "          python-version: '3.12'",
-        "",
-        "      - name: Cache Hugging Face Models",
-        "        uses: actions/cache@v4",
-        "        with:",
-        "          path: ~/.cache/huggingface",
-        "          key: ${{ runner.os }}-hf-florence2",
-        "          restore-keys: |",
-        "            ${{ runner.os }}-hf-florence2-",
-        "",
-        "      - name: Install Python dependencies",
-        "        run: |",
-        "          python -m pip install --upgrade pip",
-        "          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu",
-        "          pip install -r r.txt",
-        "",
-        "      - name: Install Playwright Browsers",
-        "        run: |",
-        "          pip install playwright",
-        "          playwright install --with-deps",
-        "",
-        "      - name: Install OpenVPN Client Backend",
-        "        run: |",
-        "          sudo apt-get update",
-        "          sudo apt-get install -y openvpn",
-        "",
-        "      - name: Run SEO Script",
-        "        run: python SEO/download.py",
-        "",
-        "      - name: Run Main Script",
-        "        run: python main.py",
-    ])
-
-    return "\n".join(yaml)
-
-
-def update_github_workflow(yaml_content):
-    """Update the workflow file in GitHub"""
-
+def update_github_workflows(config, base_crons, remainder_crons):
+    """Iterate through the configured files, apply logic, and push."""
     auth = Auth.Token(GITHUB_TOKEN)
     g = Github(auth=auth)
-
     repo = g.get_repo(REPO_NAME)
-    user = g.get_user()
-    print(user.login)
-    print(f"Connected to: {repo.full_name}")
-    print(f"Default branch: {repo.default_branch}")
-
-    # Show available workflow files (debug)
-    print("\nWorkflow files:")
-    workflow_files = repo.get_contents(".github/workflows", ref=BRANCH)
-    for f in workflow_files:
-        print(f" - {f.path}")
-
-    # Get the existing workflow file
-    workflow_file = repo.get_contents(WORKFLOW_PATH, ref=BRANCH)
     
-    # Update it
-    repo.update_file(
-        path=WORKFLOW_PATH,
-        message="🤖 Auto-update workflow schedule",
-        content=yaml_content,
-        sha=workflow_file.sha,
-        branch=BRANCH,
-    )
-    # README = repo.get_contents("README.md", ref=BRANCH)
-
-    # repo.update_file(
-    #     "README.md",
-    #     "test",
-    #     README.decoded_content.decode() + "\n",
-    #     README.sha,
-    #     branch=BRANCH,
-    # )
-
-    print("\n✅ Workflow updated successfully!")
-
+    for workflow_name, settings in config.items():
+        workflow_path = f".github/workflows/{workflow_name}"
+        offset = settings["offset"]
+        
+        # 1. Apply offsets to base crons
+        final_crons = [offset_cron_time(c, offset) for c in base_crons]
+        
+        # 2. If eligible, append the remainder crons (with the same offset)
+        if settings["use_remainder"] and remainder_crons:
+            final_crons.extend([offset_cron_time(c, offset) for c in remainder_crons])
+            
+        try:
+            workflow_file = repo.get_contents(workflow_path, ref=BRANCH)
+            original_yaml = base64.b64decode(workflow_file.content).decode("utf-8")
+            
+            updated_yaml = inject_schedules_into_yaml(original_yaml, final_crons)
+            
+            if original_yaml.strip() != updated_yaml.strip():
+                repo.update_file(
+                    path=workflow_path,
+                    message=f"🤖 Auto-update schedule for {workflow_name}",
+                    content=updated_yaml,
+                    sha=workflow_file.sha,
+                    branch=BRANCH,
+                )
+                print(f"✅ Updated {workflow_name} with {len(final_crons)} total schedules.")
+            else:
+                print(f"⏩ No changes needed for: {workflow_name}")
+                
+        except UnknownObjectException:
+            print(f"❌ Error: {workflow_name} not found in the repository!")
 
 def main():
-    cron_times = read_cron_times(TIMES_FILE)
-
-    if not cron_times:
-        raise ValueError("times.txt is empty!")
-
-    workflow_yaml = generate_workflow_yaml(cron_times)
-    update_github_workflow(workflow_yaml)
-
+    base_count, remainder = get_schedule_counts(DATA_FILE)
+    
+    base_crons = generate_base_crons(base_count)
+    remainder_crons = generate_remainder_crons(remainder) if remainder > 0 else []
+    
+    update_github_workflows(WORKFLOW_CONFIG, base_crons, remainder_crons)
 
 if __name__ == "__main__":
     main()
