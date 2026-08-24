@@ -4,13 +4,14 @@ on:
   workflow_dispatch:
   # Runs at 00:00 UTC every Monday
   schedule:
-    - cron: '37 6 * * *'
-    - cron: '2 23 * * *'
-    - cron: '10 14 * * *'
-    - cron: '6 22 * * *'
-    - cron: '18 15 * * *'
-    - cron: '57 10 * * *'
-    - cron: '39 20 * * *'
+    - cron: '11 11 * * *'
+    - cron: '45 5 * * *'
+    - cron: '2 10 * * *'
+    - cron: '14 3 * * *'
+    - cron: '29 16 * * *'
+    - cron: '24 9 * * *'
+    - cron: '11 10 * * *'
+    - cron: '38 15 * * *'
 
 jobs:
   run-seo-script:
