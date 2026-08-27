@@ -3,13 +3,13 @@ name: Videos
 on:
   workflow_dispatch:
   schedule:
-    - cron: '16 12 * * *'
-    - cron: '59 2 * * *'
-    - cron: '14 12 * * *'
-    - cron: '36 1 * * *'
-    - cron: '34 23 * * *'
-    - cron: '36 22 * * *'
-    - cron: '26 4 * * *'
+    - cron: '56 6 * * *'
+    - cron: '13 8 * * *'
+    - cron: '5 23 * * *'
+    - cron: '23 21 * * *'
+    - cron: '7 22 * * *'
+    - cron: '54 23 * * *'
+    - cron: '58 12 * * *'
 
 jobs:
   run-seo-script:
