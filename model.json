@@ -1,15 +1,6 @@
 {
     "models": [
         {
-            "model": "gemma-4-26b-a4b-it"
-        },
-        {
-            "model": "gemma-4-31b-it"
-        },
-        {
-            "model": "gemini-flash-latest"
-        },
-        {
             "model": "gemini-flash-lite-latest"
         },
         {
