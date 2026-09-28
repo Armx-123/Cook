@@ -4,6 +4,7 @@ aiosignal==1.4.0
 annotated-types==0.7.0
 anyio==4.13.0
 attrs==26.1.0
+beautifulsoup4==4.14.3
 certifi==2026.4.22
 cffi==2.0.0
 charset-normalizer==3.4.7
@@ -39,6 +40,7 @@ pyclipper==1.4.0
 pycparser==3.0
 pydantic==2.13.4
 pydantic_core==2.46.4
+pymupdf==1.28.2
 pytesseract==0.3.13
 python-dateutil==2.9.0.post0
 PyYAML==6.0.3
